@@ -1,0 +1,979 @@
+// client ip pagination
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios'; // Assuming axios is installed
+
+// const DataViewer = () => {
+//   const [data, setData] = useState(null);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [pageSize, setPageSize] = useState(100); // Adjust as needed
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const cl="2024-11-15";
+//       setIsLoading(true);
+//       try {
+//         const response = await axios.post(
+//           'https://typo.coednssecurity.in:5001/clientipnxdomain',
+//           { date:cl } // Replace with your actual data
+//         );
+//         const formattedData = formatData(response.data.data); // Custom formatting function
+//        // console.log("data is ",formattedData);
+//         setData(formattedData);
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const formatData = (rawData) => {
+//     // Implement custom formatting logic here
+//     // This example removes the wildcard character from keys
+//     const formatted = {};
+//     Object.entries(rawData).forEach(([key, value]) => {
+//       formatted[key.replace(/\*/g, '')] = value;
+//     });
+//     return formatted;
+//   };
+
+//   const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
+
+//   const getVisibleData = () => {
+//     if (!data) return null;
+
+//     const start = (currentPage - 1) * pageSize;
+//     const end = start + pageSize;
+//     const domainKeys = Object.keys(data); // Assuming data is an object
+
+//     return domainKeys.slice(start, end).map((domainKey) => ({
+//       domain: domainKey,
+//       details: data[domainKey],
+//     }));
+//   };
+
+//   const renderPagination = () => {
+//     if (!data) return null;
+
+//     const domainKeys = Object.keys(data);
+//     const totalPages = Math.ceil(domainKeys.length / pageSize);
+
+//     return (
+//       <div>
+//         <button disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>
+//           Previous
+//         </button>
+//         <span>{currentPage} of {totalPages}</span>
+//         <button   disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>
+//           Next
+//         </button>
+//       </div>
+//     );
+//   };
+
+//   return (
+//     <div>
+//       {isLoading ? (
+//         <p>Loading data...</p>
+//       ) : data ? (
+//         <div>
+//           {renderPagination()}
+//           <pre>
+//             <code>{JSON.stringify(getVisibleData(), null, 2)}</code>
+//           </pre>
+//         </div>
+//       ) : (
+//         <p>No data available.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default DataViewer;
+
+
+
+
+
+
+
+[
+    {
+      "Domains Not Found": 78,
+      "Total Input Domains": 42161,
+      "Total Processed Domains": 42083
+    },
+    {
+      "first_query_date": "2024-11-17",
+      "fqdn": "0000391-nemesis-0du-ub3620a6e-c233-s1507600447-i95143f0d.am.decarta.us",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-17",
+          "ip": "103.224.212.210",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 1
+    },
+    {
+      "first_query_date": "2024-11-16",
+      "fqdn": "000760app-hw3.xvideos.net",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "xvideos.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "141.0.173.175",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "xvideos.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 3
+    },
+    {
+      "first_query_date": "2024-11-16",
+      "fqdn": "00z-calendar.decarta.us",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "103.224.212.210",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 1
+    },
+    {
+      "first_query_date": "2024-11-16",
+      "fqdn": "01.ayudaprofesionales.coches.net",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "pro.gatewaycoches.coches.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "d10m79y3of7axi.cloudfront.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.84.12.72",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.84.12.67",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.84.12.54",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.84.12.80",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "pro.gatewaycoches.coches.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "d10m79y3of7axi.cloudfront.net.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:4e00:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:dc00:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:2a00:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:a800:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:5200:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:5600:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:7c00:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "2600:9000:2154:7800:1d:1aec:8580:93a1",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 16
+    },
+    {
+      "first_query_date": "2024-11-16",
+      "fqdn": "0101-premiumsolution.s3.amazonaws.com",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "s3-1-w.amazonaws.com.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "s3-w.us-east-1.amazonaws.com.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.217.133.113",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.217.80.180",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "3.5.28.191",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "3.5.28.123",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "52.217.198.222",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "54.231.136.169",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "3.5.28.148",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "54.231.193.9",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "s3-1-w.amazonaws.com.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        },
+        {
+          "first_query_date": "2024-11-16",
+          "ip": "s3-w.us-east-1.amazonaws.com.",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 12
+    },
+    {
+      "first_query_date": "2024-11-17",
+      "fqdn": "01battlefield-play4free-bbs.decarta.us",
+      "ip_info": [
+        {
+          "first_query_date": "2024-11-17",
+          "ip": "103.224.212.210",
+          "query_count_last_5_days": 1,
+          "status": "active"
+        }
+      ],
+      "query_count_last_5_days": 1
+    },
+    {
+
+
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function Nxdata() {
+  const [data, setData] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage, setItemsPerPage] = useState(10); 
+
+  const fetchApiDataClientIpnxDomain = async () => {
+    try {
+      const response = await axios.get("https://typo.coednssecurity.in:5001/recentqueriedlast5days");//operationaldomain10days  recentqueriedlast5days
+      console.table("nxx client Ip data :-", response.data);
+      //console.log("the length of the data is");
+      setData(response.data.data); 
+      console.log("Total data length:", response.data.data.length);
+    } catch (error) {
+      console.error("Error fetching data", error);
+      setError(error); 
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  useEffect(() => {
+    fetchApiDataClientIpnxDomain(); 
+  }, []);
+
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const currentData = data ? data.slice(indexOfFirstItem, indexOfLastItem) : [];
+
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+
+  if (error) {
+    return <div>Error fetching data: {error.message}</div>; 
+  }
+
+  return (
+    <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "8px" }}>
+      <h3>API Data:</h3>
+      <pre
+        style={{
+          backgroundColor: "#f4f4f4",
+          padding: "10px",
+          borderRadius: "5px",
+          whiteSpace: "pre-wrap",
+          wordWrap: "break-word",
+          color: "black",
+        }}
+      >
+        {JSON.stringify(currentData, null, 2)} 
+      </pre>
+      <div style={{ marginTop: "20px" }}>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span style={{ margin: "0 10px" }}>
+          Page {currentPage} of {Math.ceil(data.length / itemsPerPage)}
+        </span>
+        <button
+          onClick={nextPage}
+          disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Nxdata;
+
+
+
+
+/////////
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ResponsiveTreeMap } from '@nivo/treemap';
+
+const TreeMapDisplay = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+   
+        const api1Response = await axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days');
+        const { 'Total Input Domains': totalInputDomains } = api1Response.data.data[0];
+
+        const api2Response = await axios.get('https://typo.coednssecurity.in:5001/newipslast10days');  
+        const { 'Total New IPs Found': totalNewIpsFound } = api2Response.data.data[0];
+
+        const api3Response = await axios.get('https://typo.coednssecurity.in:5001/operationaldomain10days');  
+        const { 'Total Domains Found': operationalDomain } = api3Response.data.data[0];
+
+        const api4Response = await axios.get('https://typo.coednssecurity.in:5001/nonoperationaldomain10days');  
+        const { 'Total Domains Found': nonoperationalDomain } = api4Response.data.data[0];
+
+        const api5Response = await axios.get('https://typo.coednssecurity.in:5001/dnsrecordlast10');  
+        const { 'total_domains': dnsrecord } = api5Response.data.data;
+        console.log("dns record ",dnsrecord);
+
+
+
+
+        const treemapData = {
+          name: 'root',
+          children: [
+            { 
+              name: 'Total Input Domains',
+              loc: totalInputDomains,
+              
+            },
+            {
+              name: 'Total New IPs Found',
+              loc: totalNewIpsFound,
+            },
+            {
+                name: 'Total Operational Domain',
+                loc: operationalDomain ,
+            },
+            {
+                name: 'Total Non-Operational Domain',
+                loc: nonoperationalDomain ,
+            },
+            {
+                name: 'domain changed',
+                loc: dnsrecord,
+            }
+          ],
+        };
+
+        setData(treemapData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div style={{ height: '500px' }}>
+      <h1>TreeMap Example</h1>
+      <ResponsiveTreeMap
+        data={data}
+        identity="name"
+        value="loc"
+        valueFormat=".02s"
+        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        labelSkipSize={10}
+        labelTextColor={{
+          from: 'color',
+          modifiers: [['darker', 3.2]],
+        }}
+        parentLabelPosition="left"
+        parentLabelTextColor={{
+          from: 'color',
+          modifiers: [['darker', 4]],
+        }}
+        borderColor={{
+          from: 'color',
+          modifiers: [['darker', 1.1]],
+        }}
+        theme={{
+          axis: {
+            domain: {
+              line: {
+                stroke: '#FFFFFF',
+              },
+            },
+            legend: {
+              text: {
+                fill: '#FFFFFF',
+              },
+            },
+            ticks: {
+              line: {
+                stroke: '#FFFFFF',
+                strokeWidth: 1,
+              },
+              text: {
+                fill: '#FFFFFF',
+              },
+            },
+          },
+          legends: {
+            text: {
+              fill: '#FFFFFF',
+            },
+          },
+          tooltip: {
+            container: {
+              color: '#1976D2',
+            },
+          },
+        }}
+      />
+    </div>
+  );
+};
+
+export default TreeMapDisplay;
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ResponsiveTreeMap } from '@nivo/treemap';
+import { Button } from '@mui/material';
+import  Last5daysTable from '../scence/DynamicTable/Last5days.jsx';
+import OperationalTable from '../scence/DynamicTable/OperationalTable.jsx';
+import NonOperationalTable from '../scence/DynamicTable/NonOperationalTable.jsx';
+import NewIpTable from '../scence/DynamicTable/NewIpTable.jsx';
+
+
+const TreeMapDisplay = () => {
+  const [data, setData] = useState(null);
+  const [selectedDomain, setSelectedDomain] = useState(null);
+  const [hoveredId, setHoveredId] = useState(null);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const api1Response = await axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days');
+        const { 'Total Input Domains': totalInputDomains } = api1Response.data.data[0];
+
+        const api2Response = await axios.get('https://typo.coednssecurity.in:5001/newipslast10days');
+        const { 'Total New IPs Found': totalNewIpsFound } = api2Response.data.data[0];
+
+        const api3Response = await axios.get('https://typo.coednssecurity.in:5001/operationaldomain10days');
+        const { 'Total Domains Found': operationalDomain } = api3Response.data.data[0];
+
+        const api4Response = await axios.get('https://typo.coednssecurity.in:5001/nonoperationaldomain10days');
+        const { 'Total Domains Found': nonoperationalDomain } = api4Response.data.data[0];
+
+        const api5Response = await axios.get('https://typo.coednssecurity.in:5001/dnsrecordlast10');
+        const { 'total_domains': dnsrecord } = api5Response.data.data;
+        console.log("dnsrecord :",dnsrecord);
+
+        const treemapData = {
+          name: 'root',
+          children: [
+            { name: 'Last 5 days', loc: totalInputDomains },
+            { name: 'Total New IPs Found', loc: totalNewIpsFound },
+            {name: 'Total Operational Domain', loc: operationalDomain },
+            {name: 'Total Non-Operational Domain', loc: nonoperationalDomain },
+            {name: 'Domain Changed', loc: dnsrecord },
+            
+            
+          ]
+        };
+         
+
+
+
+        console.log(treemapData);
+
+        setData(treemapData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const smallValues = data && data.children ? data.children.filter(item => item.loc < 100) : [];
+ 
+
+
+
+
+ 
+  const handleRectangleClick = (domainName) => {
+    console.log("clicked",domainName);
+    setSelectedDomain(domainName);
+  };
+
+  const handleBackToMap = () => {
+    setSelectedDomain(null); 
+  };
+
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+
+  let tableComponent;
+  switch (selectedDomain) {
+    case 'Last 5 days':
+      tableComponent = <Last5daysTable />;
+      break;
+    case 'Total New IPs Found':
+      tableComponent = <NewIpTable />;
+      break;
+    case 'Total Operational Domain':
+      tableComponent = <OperationalTable />;
+      break;
+    case 'Total Non-Operational Domain':
+      tableComponent = <NonOperationalTable />;
+      break;
+    // case 'Domain Changed':
+    //   tableComponent = <DnsRecordChangedTable />;
+    //   break;
+    default:
+      tableComponent = null;
+  }
+
+
+  if (!selectedDomain) {
+    return (
+      <div style={{height: '600px', width: '100%', position: 'relative' }}>
+        <h1>TreeMap Example</h1>
+        <ResponsiveTreeMap
+          data={data}
+          // label={node => `${node.data.name}\n(${node.data.loc})`}
+          identity="name"
+          value="loc"
+         
+          valueFormat=".02s"
+          margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+          labelSkipSize={-10}
+          labelTextColor={{
+            from: 'color',
+            modifiers: [['darker', 3.2]],
+          }}
+          parentLabelPosition="right"
+          parentLabelTextColor={{
+            from: 'color',
+            modifiers: [['darker', 4]],
+          }}
+          borderColor={{
+            from: 'color',
+            modifiers: [['darker', 1.1]],
+          }}
+          onClick={(node) => handleRectangleClick(node.id)} 
+          theme={{
+            axis: {
+              domain: {
+                line: {
+                  stroke: '#FFFFFF',
+                },
+              },
+              legend: {
+                text: {
+                  fill: '#FFFFFF',
+                },
+              },
+              ticks: {
+                line: {
+                  stroke: '#FFFFFF',
+                  strokeWidth: 1,
+                },
+                text: {
+                  fill: '#FFFFFF',
+                },
+              },
+            },
+            legends: {
+              text: {
+                fill: '#FFFFFF',
+              },
+            },
+            tooltip: {
+              container: {
+                color: '#1976D2',
+              },
+            },
+          }}
+          minValue={1} 
+          leavesOnly={false}  
+          minSize={1}
+        
+      
+          
+        />
+       
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Button variant="contained" color="primary" onClick={handleBackToMap} style={{ marginBottom: '20px' }}>
+        Back to Map
+      </Button>
+      {tableComponent}
+    </div>
+  );
+};
+
+export default TreeMapDisplay;
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Paper } from '@mui/material';
+import DataGrid, { Column } from 'devextreme-react/data-grid'; // Import both DataGrid and Column
+import 'devextreme/dist/css/dx.light.css'; // Import DevExtreme CSS
+
+const DnsRecordChangedTable = () => {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get('https://typo.coednssecurity.in:5001/dnsrecordlast10')
+      .then((response) => {
+        const processedData = [];
+        let rowId = 0;
+
+        response.data.data.data.forEach((item) => {
+          const { domain, changes, details } = item;
+
+          processedData.push({
+            id: rowId++,
+            domain: domain,
+            expiryDateCurrent: details.expiry_date?.current || 'N/A',   
+            expiryDatePrevious: details.expiry_date?.previous || 'N/A',
+            registrantCurrent: details.registrant?.current || 'N/A',
+            registrantPrevious: details.registrant?.previous || 'N/A',
+            registrarCurrent: details.registrar?.current || 'N/A',
+            registrarPrevious: details.registrar?.previous || 'N/A',
+            updateDateCurrent: details.update_date?.current || 'N/A',
+            updateDatePrevious: details.update_date?.previous || 'N/A'
+          });
+        });
+
+        setRows(processedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <>
+      <div>
+        <h1>
+          DNS Records Changed in the Last 10 Updates
+        </h1>
+      </div>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <div style={{ height: 800, width: '100%' }}>
+          {loading ? (
+            <div>
+              Loading......
+            </div>
+          ) : (
+            <DataGrid
+              dataSource={rows}
+              showBorders={true}
+              columnAutoWidth={true}
+              columnHidingEnabled={true}
+            >
+              {/* Grouping columns under parent headers */}
+              {/* Domain Column */}
+              <Column dataField="domain" caption="Domain Name" width={200} />
+
+              {/* Expiry Date Group */}
+              <Column caption="Expiry Date">
+                <Column dataField="expiryDateCurrent" caption="Current Expiry Date" width={150} />
+                <Column dataField="expiryDatePrevious" caption="Previous Expiry Date" width={150} />
+              </Column>
+
+              {/* Registrant Group */}
+              <Column caption="Registrant">
+                <Column dataField="registrantCurrent" caption="Current Registrant" width={170} />
+                <Column dataField="registrantPrevious" caption="Previous Registrant" width={170} />
+              </Column>
+
+              {/* Registrar Group */}
+              <Column caption="Registrar">
+                <Column dataField="registrarCurrent" caption="Current Registrar" width={170} />
+                <Column dataField="registrarPrevious" caption="Previous Registrar" width={170} />
+              </Column>
+
+              {/* Updated Date Group */}
+              <Column caption="Updated Date">
+                <Column dataField="updateDateCurrent" caption="Current Updated Date" width={150} />
+                <Column dataField="updateDatePrevious" caption="Previous Updated Date" width={150} />
+              </Column>
+            </DataGrid>
+          )}
+        </div>
+      </Paper>
+    </>
+  );
+};
+
+export default DnsRecordChangedTable;
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid';
+import { Paper } from '@mui/material';
+
+const DnsRecordChangedTable = () => {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Define columns with sub-columns for current and previous values
+  const [columns] = useState([
+    { field: 'domain', headerName: 'Domain Name', width: 200 },
+    { field: 'expiryDateCurrent', headerName: 'Current_exp_date', width: 150 },
+    { field: 'expiryDatePrevious', headerName: 'Previous_exp_Date', width: 150 },
+    { field: 'registrantCurrent', headerName: 'Current_Registrant', width: 170 },
+    { field: 'registrantPrevious', headerName: 'Previous_Registrant', width: 170 },
+    { field: 'registrarCurrent', headerName: 'Current_Registrar', width: 170 },
+    { field: 'registrarPrevious', headerName: 'Previous_Registrar', width: 170 },
+    { field: 'updateDateCurrent', headerName: 'Current_Updated_Date', width: 150},
+    { field: 'updateDatePrevious', headerName: 'Previous_Updated_Date', width: 150 }
+
+]);
+
+  useEffect(() => {
+    axios.get('https://typo.coednssecurity.in:5001/dnsrecordlast10')
+      .then((response) => {
+        const processedData = [];
+        let rowId = 0;
+
+        response.data.data.data.forEach((item) => {
+          const { domain,changes, details } = item;
+
+          processedData.push({
+            id: rowId++,
+            domain: domain,
+            
+            expiryDateCurrent: details.expiry_date?.current || 'N/A',   
+            expiryDatePrevious: details.expiry_date?.previous || 'N/A',
+            registrantCurrent: details.registrant?.current || 'N/A',
+            registrantPrevious: details.registrant?.previous || 'N/A',
+            registrarCurrent: details.registrar?.current || 'N/A',
+            registrarPrevious: details.registrar?.previous || 'N/A',
+            updateDateCurrent: details.update_date?.current || 'N/A',
+            updateDatePrevious: details.update_date?.previous || 'N/A'
+          });
+        });
+        console.log(processedData);
+
+        setRows(processedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error);
+        setLoading(true);
+      });
+  }, []);
+
+  return (
+    <>
+      <div>
+        <h1>
+          DNS Records Changed in the Last 10 Updates
+        </h1>
+      </div>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <div style={{ height: 800, width: '100%' }}>
+          {loading ? (
+            <div>
+              Loading......
+            </div>
+          ) : (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10} 
+              rowsPerPageOptions={[5, 10, 25]} 
+              disableSelectionOnClick 
+            />
+          )}
+        </div>
+      </Paper>
+    </>
+  );
+};
+
+export default DnsRecordChangedTable;
+
+    
