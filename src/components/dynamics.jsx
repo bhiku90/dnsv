@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ResponsiveTreeMap } from '@nivo/treemap';
-import { Button } from '@mui/material';
+import { Button, colors } from '@mui/material';
 import Last5daysTable from '../scence/DynamicTable/Last5days.jsx';
 import OperationalTable from '../scence/DynamicTable/OperationalTable.jsx';
 import NonOperationalTable from '../scence/DynamicTable/NonOperationalTable.jsx';
@@ -15,6 +15,21 @@ import Header from "../components/Header.jsx";
   const [selectedDomain, setSelectedDomain] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
   const logScale = (value) => Math.log10(value);
+
+
+  const customLabel = (node) => {
+    return `${node.id}\n${node.data.originalValue}`;
+};
+const nodeStyle = {
+  color :"white",
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center', 
+  textAlign: 'center', 
+  whiteSpace: 'pre-wrap', 
+};
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,12 +83,12 @@ import Header from "../components/Header.jsx";
     color: "blue",
     fontSize: "14px",
     fontWeight: "bold",
-    textOverflow: 'ellipsis', // Not needed anymore as we are allowing wrapping
-    whiteSpace: 'normal',     // Allow text to wrap normally
-    overflow: 'hidden',      // Prevent overflow but allow wrapping
-    wordWrap: 'break-word',  // Break words if they are too long to fit
-    wordBreak: 'break-word', // Ensure long words break and don't overflow
-    maxWidth: '100%',        // Ensure label fits within the parent element
+    textOverflow: 'ellipsis', 
+    whiteSpace: 'normal',    
+    overflow: 'hidden',      
+    wordWrap: 'break-word',  
+    wordBreak: 'break-word', 
+    maxWidth: '100%',        
   };
 
   const handleRectangleClick = (domainName) => {
@@ -141,58 +156,68 @@ import Header from "../components/Header.jsx";
       <div style={{ height: '600px', width: '100%', position: 'relative' }}>
         <Header title="Recent Salient Statistics" />
         <ResponsiveTreeMap
-          data={data}
-          nodeOpacity="0.5"
-          colors={{ scheme: 'set3' }} 
-          identity="name"
-          value="value"
-         label={node => {
-          // Return formatted label
-          return `${node.data.name} \n Value: ${node.data.originalValue}`;
-        }}
-          
-          borderWidth="4px"
-          parentLabelSize={20}
-          valueFormat=".04s"
-          margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-          labelSkipSize={-10}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 10]] }}
-          parentLabelPosition="right"
-          parentLabelTextColor={{ from: 'color', modifiers: [['darker', 1]] }}
-          borderColor={{ from: 'color', modifiers: [['darker', 1.1]] }}
-          onClick={(node) => handleRectangleClick(node.id)}
-          theme={{
-            axis: {
-              domain: { line: { stroke: '#FFFFFF' } },
-              legend: { text: { fill: '#FFFFFF' } },
-              ticks: { line: { stroke: '#FFFFFF', strokeWidth: 1 }, text: { fill: '#FFFFFF' } },
-            },
-            legends: { text: { fill: '#FFFFFF' } },
-            labels: { text: { fontSize: 15, lineBreak: 'unset' } },
-            tooltip: { container: { color: '#1976D2' } },
-          }}
-          leavesOnly={true}
-          tooltip={({ node }) => {
-            const originalValue = node.data.originalValue;
-            const label = node.data.name;
-            return (
-              <div style={tooltipStyle}>
-                <strong>{label}</strong>
-                <strong>{` - ${originalValue}`}</strong>
-              </div>
-            );
-          }}
-          // label={({ node }) => {
-          //   const originalValue = node.data.originalValue;
-          //   const label = node.data.name;
-          //   return (
-          //     <div style={tooltipStyle}>
-          //       <strong>{label}</strong>
-          //       <strong>{` - ${originalValue}`}</strong>
-          //     </div>
-          //   );
-          // }}
-        />
+  data={data}
+  nodeOpacity="0.5"
+  colors={{ scheme: 'set3' }} 
+
+
+
+  identity="name"
+  value="value"
+  // label={node => {
+  //   console.log("in label",node)
+  //   return `${node.data.name}\nValue: ${node.data.originalValue}`;  // Use \n to indicate new lines
+  // }}
+  label={customLabel}
+//   nodeComponent={({ node }) => (
+//     <g>
+//         <rect width={node.width} height={node.height} fill={node.color} />
+//         <text 
+//             x={node.x + node.width / 2} 
+//             y={node.y + node.height / 2} 
+//             style={nodeStyle}
+//             textAnchor="middle"
+//             dominantBaseline="middle"
+//         >
+//             {customLabel(node)}
+//         </text>
+//     </g>
+// )}
+
+  borderWidth="4px"
+  parentLabelSize={20}
+  valueFormat=".04s"
+  margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+  labelSkipSize={-10}
+  labelTextColor={{ from: 'color', modifiers: [['darker', 10]] }}
+  parentLabelPosition="right"
+  parentLabelTextColor={{ from: 'color', modifiers: [['darker', 1]] }}
+  borderColor={{ from: 'color', modifiers: [['darker', 1.1]] }}
+  onClick={(node) => handleRectangleClick(node.id)}
+  theme={{
+    axis: {
+      domain: { line: { stroke: '#FFFFFF' } },
+      legend: { text: { fill: '#FFFFFF' } },
+      ticks: { line: { stroke: '#FFFFFF', strokeWidth: 1 }, text: { fill: '#FFFFFF' } },
+    },
+    legends: { text: { fill: '#FFFFFF' } },
+    labels: { text: { fontSize: 15, lineBreak: 'break-word' } },
+    tooltip: { container: { color: '#1976D2' } },
+  }}
+  leavesOnly={true}
+  tooltip={({ node }) => {
+    //console.log("in tooltip",node)
+    const originalValue = node.data.originalValue;
+    const label = node.data.name;
+    return (
+      <div style={tooltipStyle}>
+        <strong>{label}</strong>
+        <strong>{` - ${originalValue}`}</strong>
+      </div>
+    );
+  }}
+/>
+
       </div>
     );
   }
@@ -211,42 +236,5 @@ export default TreeMapDisplay;
 
 
 
-// {
-//   "data": "",
-//   "status": 200,
-//   "statusText": "OK",
-//   "headers": {
-//     "content-length": "1061553624",
-//     "content-type": "application/json"
-//   },
-//   "config": {
-//     "transitional": {
-//       "silentJSONParsing": true,
-//       "forcedJSONParsing": true,
-//       "clarifyTimeoutError": false
-//     },
-//     "adapter": [
-//       "xhr",
-//       "http",
-//       "fetch"
-//     ],
-//     "transformRequest": [
-//       null
-//     ],
-//     "transformResponse": [
-//       null
-//     ],
-//     "timeout": 0,
-//     "xsrfCookieName": "XSRF-TOKEN",
-//     "xsrfHeaderName": "X-XSRF-TOKEN",
-//     "maxContentLength": -1,
-//     "maxBodyLength": -1,
-//     "env": {},
-//     "headers": {
-//       "Accept": "application/json, text/plain, */*"
-//     },
-//     "method": "get",
-//     "url": "https://typo.coednssecurity.in:5001/recentqueriedlast5days"
-//   },
-//   "request": {}
-// }
+
+

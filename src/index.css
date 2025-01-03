@@ -32,3 +32,10 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.nivo-treemap .node {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+}
