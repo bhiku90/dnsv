@@ -3,6 +3,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button,CircularProgress,Typography,Box } from '@mui/material';
 import { fetchApiDataClientIpnxDomain } from '../../data/mockData'; 
 import DomainDetail from '../../DomainDetail';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+
 
 
 const DomainTable = ({selectedDate,onBack}) => {
@@ -82,10 +85,20 @@ const DomainTable = ({selectedDate,onBack}) => {
   
     return (
       <Box sx={{ height: 800, width: '100%', padding: '20px' }}>
+      <div style={{display:"flex"}}>
+      <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
       <h1>Domain Data for {selectedDate}</h1>
-        <Button variant="contained" color="primary" onClick={onBack}>
-             Back to chart
-         </Button>
+      </div>
+     
+        
         {loading ? (
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
             <CircularProgress />

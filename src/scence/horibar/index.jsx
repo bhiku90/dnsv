@@ -31,10 +31,10 @@ const HoriBarMal = () => {
                     </Box>
                 ) : (
                     <Box height="75vh">
-                        <LineChart data={{...selectedBar}}/>
-                        <TwentyfourHoursTable data={{ ...selectedBar }} clickedIp={clickedIp} onBack={handleBack} />
+                         <LineChart data={{...selectedBar}} onBack={handleBack}/> 
+                         <TwentyfourHoursTable data={{ ...selectedBar }} clickedIp={clickedIp} onBack={handleBack} /> 
                     </Box>
-                )};
+                )}
             </Box>
         </Box>
     );

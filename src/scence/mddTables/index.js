@@ -1,17 +1,19 @@
 import React from 'react';
-import { Box,useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { fetchApiDataMddClientIp } from "../../data/mockData";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
 import dayjs from "dayjs";
 import { CircularProgress, Typography } from "@mui/material";
 import { Width } from 'devextreme-react/cjs/chart';
 
-function MddTable1({data, clickedDate, onDomainClick, onBack}) {
+function MddTable1({ data, clickedDate, onDomainClick, onBack }) {
     const theme = useTheme();
     const [selectedDomainData, setSelectedDomainData] = useState(null);
-    const[loading,setLoading] = useState(true);
-   
+    const [loading, setLoading] = useState(false);
+
 
     //console.log("MdddData:=======",data);
     // const rows = [];
@@ -34,144 +36,145 @@ function MddTable1({data, clickedDate, onDomainClick, onBack}) {
 
 
 
-//     const rows = [];
-// Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
-//     domainDataArray.forEach((item, itemIndex) => {
-//         const fqdn = item.fqdn || 'NA'; 
-//         const registrar = getFirstNonNullValue(item.registrar); 
-//         const registrant = getFirstNonNullValue(item.registrant); 
-//         //const domainRows = [];
+    //     const rows = [];
+    // Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
+    //     domainDataArray.forEach((item, itemIndex) => {
+    //         const fqdn = item.fqdn || 'NA'; 
+    //         const registrar = getFirstNonNullValue(item.registrar); 
+    //         const registrant = getFirstNonNullValue(item.registrant); 
+    //         //const domainRows = [];
 
-//         rows.push({
-//             id: `${domainIndex}-${itemIndex}-domain`, 
-//             fqdn, 
-//             ip: '', 
-//             status: '', 
-//             location: '', 
-//             activedate: '', 
-//             inactivedate: '', 
-//             registrar: registrar || 'N/A',
-//             registrant: registrant || 'N/A', 
-//             rawData: item, 
-//         });
-
-      
-//         item.data.forEach((d, dataIndex) => {
-//             rows.push({
-//                 id: `${domainIndex}-${itemIndex}-${dataIndex}`,
-//                 fqdn: '',
-//                 ip: d.ip || 'N/A', 
-//                 status: d.status || 'N/A', 
-//                 location: d.location == 'not there' ? 'N/A' : d.location || 'N/A',
-//                 activedate: d.activedate[0] || 'N/A', 
-//                 inactivedate: d.inactivedate?.[0] || 'N/A', 
-//                 registrar: '',
-//                 registrant: '', 
-//                 rawData: item, 
-//             });
-//         });
+    //         rows.push({
+    //             id: `${domainIndex}-${itemIndex}-domain`, 
+    //             fqdn, 
+    //             ip: '', 
+    //             status: '', 
+    //             location: '', 
+    //             activedate: '', 
+    //             inactivedate: '', 
+    //             registrar: registrar || 'N/A',
+    //             registrant: registrant || 'N/A', 
+    //             rawData: item, 
+    //         });
 
 
-      
+    //         item.data.forEach((d, dataIndex) => {
+    //             rows.push({
+    //                 id: `${domainIndex}-${itemIndex}-${dataIndex}`,
+    //                 fqdn: '',
+    //                 ip: d.ip || 'N/A', 
+    //                 status: d.status || 'N/A', 
+    //                 location: d.location == 'not there' ? 'N/A' : d.location || 'N/A',
+    //                 activedate: d.activedate[0] || 'N/A', 
+    //                 inactivedate: d.inactivedate?.[0] || 'N/A', 
+    //                 registrar: '',
+    //                 registrant: '', 
+    //                 rawData: item, 
+    //             });
+    //         });
 
 
 
 
-//     });
-// });
-// function getFirstNonNullValue(array) {
-//     if (!Array.isArray(array)) return array; 
-//     return array.find((val) => val !== null) || 'N/A'; 
-// }
 
 
-const rows = [];
-let serialNumber = 1;
 
-Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
-    domainDataArray.forEach((item, itemIndex) => {
-        const fqdn = item.fqdn || 'NA'; 
-        const registrar = getFirstNonNullValue(item.registrar); 
-        const registrant = getFirstNonNullValue(item.registrant); 
-
-     
-        const ipData = item.data.map((d) => ({
-           
-            ip: d.ip || 'N/A',
-            status: d.status || 'N/A',
-            location: d.location =='not there' ? 'N/A' : d.location || 'N/A',
-            activedate: d.activedate[0] || 'N/A',
-            inactivedate: d.inactivedate?.[0] || 'N/A',
-        }));
+    //     });
+    // });
+    // function getFirstNonNullValue(array) {
+    //     if (!Array.isArray(array)) return array; 
+    //     return array.find((val) => val !== null) || 'N/A'; 
+    // }
 
 
-        rows.push({
-            id: `${domainIndex}-${itemIndex}-domain`,
-            SrNo: serialNumber++, 
-            fqdn, 
-            ip: ipData[0]?.ip || 'N/A', 
-            status: ipData[0]?.status || 'N/A', 
-            location: ipData[0]?.location || 'N/A', 
-            activedate: ipData[0]?.activedate || 'N/A', 
-            inactivedate: ipData[0]?.inactivedate || 'N/A', 
-            registrar: registrar || 'N/A', 
-            registrant: registrant || 'N/A', 
-            rawData: item, 
-        });
+    const rows = [];
+    let serialNumber = 1;
 
-        ipData.slice(1).forEach((d, dataIndex) => {
+    Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
+        domainDataArray.forEach((item, itemIndex) => {
+            const fqdn = item.fqdn || 'NA';
+            const registrar = getFirstNonNullValue(item.registrar);
+            const registrant = getFirstNonNullValue(item.registrant);
+
+
+            const ipData = item.data.map((d) => ({
+
+                ip: d.ip || 'N/A',
+                status: d.status || 'N/A',
+                location: d.location == 'not there' ? 'N/A' : d.location || 'N/A',
+                activedate: d.activedate[0] || 'N/A',
+                inactivedate: d.inactivedate?.[0] || 'N/A',
+            }));
+
+
             rows.push({
-                id: `${domainIndex}-${itemIndex}-${dataIndex}`, 
-                fqdn: '', 
-                ip: d.ip, 
-                status: d.status, 
-                location: d.location, 
-                activedate: d.activedate, 
-                inactivedate: d.inactivedate, 
-                registrar: '', 
-                registrant: '', 
-                rawData: item, 
+                id: `${domainIndex}-${itemIndex}-domain`,
+                SrNo: serialNumber++,
+                fqdn,
+                ip: ipData[0]?.ip || 'N/A',
+                status: ipData[0]?.status || 'N/A',
+                location: ipData[0]?.location || 'N/A',
+                activedate: ipData[0]?.activedate || 'N/A',
+                inactivedate: ipData[0]?.inactivedate || 'N/A',
+                registrar: registrar || 'N/A',
+                registrant: registrant || 'N/A',
+                rawData: item,
+            });
+
+            ipData.slice(1).forEach((d, dataIndex) => {
+                rows.push({
+                    id: `${domainIndex}-${itemIndex}-${dataIndex}`,
+                    fqdn: '',
+                    ip: d.ip,
+                    status: d.status,
+                    location: d.location,
+                    activedate: d.activedate,
+                    inactivedate: d.inactivedate,
+                    registrar: '',
+                    registrant: '',
+                    rawData: item,
+                });
             });
         });
     });
-});
 
 
-function getFirstNonNullValue(array) {
-    if (!Array.isArray(array)) return array; 
-    return array.find((val) => val !== null) || 'N/A'; 
-}
-
-
+    function getFirstNonNullValue(array) {
+        if (!Array.isArray(array)) return array;
+        return array.find((val) => val !== null) || 'N/A';
+    }
 
 
 
-const columns = [
-    {
-        field: "SrNo",
-        headerName: "Sr-No",
-        width:50,
-        flex: 1,
-        
-        
-    },
+
+
+    const columns = [
+        {
+            field: "SrNo",
+            headerName: "Sr-No",
+            width: 50,
+            flex: 1,
+
+
+        },
         {
             field: "fqdn",
             headerName: "Domain Name",
             flex: 1,
             cellClassName: "name-column--cell",
             renderCell: (params) => (
-                <div 
-                style={{
-                    whiteSpace: 'normal',
-                    lineHeight: 'normal',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100%',
-                    textAlign: 'center',
-                }}
-                 onClick={() => handleDomainCellClick(params.value)}>{params.value}</div>
+                <div
+                    style={{
+                        whiteSpace: 'normal',
+                        lineHeight: 'normal',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        textAlign: 'center',
+                        cursor: "pointer"
+                    }}
+                    onClick={() => handleDomainCellClick(params.value)}>{params.value}</div>
             ),
         },
         {
@@ -199,7 +202,7 @@ const columns = [
             headerName: "Geo-Location",
             flex: 1
         },
-       
+
         {
             field: "activedate",
             headerName: "Active Date",
@@ -220,7 +223,7 @@ const columns = [
 
         try {
             setLoading(true)
-         
+
             const last7Days = Array.from({ length: 7 }, (_, i) =>
                 dayjs().subtract(i + 1, 'day').format('YYYY-MM-DD')
             );
@@ -236,10 +239,10 @@ const columns = [
                     if (!response || !response.data) continue;
 
                     Object.entries(response.data).forEach(([fqdn, domainData]) => {
-                        console.log("fqdn----------",fqdn);
+                        console.log("fqdn----------", fqdn);
                         const fqdnSuffix = fqdn.split('.').slice(-2).join('.');  //prod-blue.razorpay.com     0-0-003orange-001enschede.prod-blue.razorpay.com
-                        const fqdnSuffix1 = fqdn.includes(inputDomain);
-                        console.log("fqdnSuffix1=======",fqdnSuffix1);
+                        const fqdnSuffix1 = fqdn.includes   (inputDomain);
+                        console.log("fqdnSuffix1=======", fqdnSuffix1);
                         if (fqdnSuffix1) {
                             console.log(`Matched FQDN: ${fqdn}`, domainData);
 
@@ -251,9 +254,9 @@ const columns = [
                                 }
 
                                 // Add the date only if it's not already present
-                            if (!aggregatedData[ip].dates.includes(date)) {
-                                aggregatedData[ip].dates.push(date);
-                            } 
+                                if (!aggregatedData[ip].dates.includes(date)) {
+                                    aggregatedData[ip].dates.push(date);
+                                }
 
                                 Object.entries(queries).forEach(([queryType, count]) => {
                                     if (!aggregatedData[ip].queryCounts[queryType]) {
@@ -266,7 +269,7 @@ const columns = [
                             });
                         }
                     });
-                   
+
                 } catch (error) {
                     console.error(`Error fetching data for ${date}:`, error);
                 }
@@ -274,42 +277,75 @@ const columns = [
 
             setSelectedDomainData(aggregatedData);
             onDomainClick({ domainName: inputDomain, data: aggregatedData });
-            
-         
-            console.log("merged data is",aggregatedData);
+
+
+            console.log("merged data is", aggregatedData);
         } catch (error) {
             console.error('Error fetching data for the last 7 days:', error);
         }
     };
-    
 
-    // if (loading) {
-    //     return (
-    //       <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-    //         <CircularProgress />
-    //         <Typography variant="h6" marginLeft="16px">
-    //           Loading data...
-    //         </Typography>
-    //       </Box>
-    //     );
-    //   }
+    if (loading) {
+        const dotStyle = (delay) => ({
+            animation: `blink 1.5s infinite`,
+            animationDelay: `${delay}s`,
+            opacity: 0,
+        });
+
+        const keyframes = `
+            @keyframes blink {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+        `;
+
+        return (
+            <>
+                <style>{keyframes}</style>
+                <div style={{
+                    fontSize: '20px', fontFamily: 'Arial, sans-serif', justifyContent: "center", alignItems: "center", display: 'flex', 
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                }}>
+                    Loading
+                    <span>
+                        <span style={dotStyle(0.2)}>.</span>
+                        <span style={dotStyle(0.4)}>.</span>
+                        <span style={dotStyle(0.6)}>.</span>
+                        <span style={dotStyle(0.8)}>.</span>
+                    </span>
+                </div>
+            </>
+        );
+    }
 
 
 
 
 
 
-  return (
-    <Box m="20px">
-        {/* <Header subtitle={`Data For IP: ${''}`}/> */}
-        <button onClick={onBack}>Back to Chart</button>
-        <Box m="40px 0 0 0" height="75vh">
-        
-          <DataGrid rows={rows} columns={columns} />
-     
+    return (
+        <Box m="20px">
+            {/* <Header subtitle={`Data For IP: ${''}`}/> */}
+
+            <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
+            <Box m="40px 0 0 0" height="75vh">
+
+                <DataGrid rows={rows} columns={columns} />
+
+            </Box>
         </Box>
-    </Box>
-  )
+    )
 }
 
 export default MddTable1;

@@ -73,6 +73,7 @@ const BarChartDga = ({isDashboard = false, onBarClick}) =>{
 
 
       const handleBarClick = async (bar) => {
+        setLoading(true)
         const clickedDate = bar.indexValue; // 'key' is the date in this case
         console.log("Clicked date:", clickedDate);
     
@@ -104,7 +105,10 @@ const BarChartDga = ({isDashboard = false, onBarClick}) =>{
         return (
             <>
                 <style>{keyframes}</style>
-                <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', }}>
+                <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',}}>
                     Loading
                     <span>
                         <span style={dotStyle(0.2)}>.</span>

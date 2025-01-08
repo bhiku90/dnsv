@@ -31,7 +31,7 @@ Object.entries(data).forEach(([ip, details], ipIndex) => {
             headerName: "Date (Last 7 Days)",
             flex: 1,
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' }}>
+                <div style={{ whiteSpace: 'normal', lineHeight: 'normal',cursor:'pointer' }}>
                     {params.value}
                 </div>
             ),

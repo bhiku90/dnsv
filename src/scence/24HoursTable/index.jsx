@@ -1,6 +1,8 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
 
 //import { mockHorBarData } from "../../data/mockData";
 import Header from "../../components/Header";
@@ -38,8 +40,8 @@ const TwentyfourHoursTable = ({data,clickedIp,onBack}) =>{
 
     return (
         <Box m="20px">
-            <Header subtitle={`Data For IP: ${clickedIp}`}/>
-            <button onClick={onBack}>Back to Chart</button>
+            <Header title={`Data For IP: ${clickedIp}`}/>
+           
             <Box m="40px 0 0 0" height="75vh">
                 <DataGrid rows={transformedData} columns={columns}/>
             </Box>

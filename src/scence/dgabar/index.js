@@ -47,7 +47,7 @@ const BarDga = () => {
 
     return (
         <Box>
-            <Header title="Bar Chart DGA" subtitle="Simple Bar Chart" />
+            <Header title="DGA Domain in Last 7 days"  />
             <Box height="75vh">
                 {!selectBar ? (
                     <BarChartDga onBarClick={handleBarClick} />

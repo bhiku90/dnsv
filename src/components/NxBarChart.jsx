@@ -3,6 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { fetchApiData7daysMdd, fetchApiDataMddDomain ,fetchApiData7daysnxDomain,fetchApiDataClientIpnxDomain} from "../data/mockData";
 import { useState, useEffect } from "react";
+import Header from "./Header";
 
 
 
@@ -75,8 +76,12 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
 
     return (
         <>
+        <Header title="NX Domains in Last 7 days" />
             <style>{keyframes}</style>
-            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', }}>
+            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%', }}>
                 Loading
                 <span>
                     <span style={dotStyle(0.2)}>.</span>

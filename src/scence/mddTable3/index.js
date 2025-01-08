@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
 
 function MddTable3({ data, onBack }) {
     console.log("Table3Data###############=", data);
@@ -31,7 +33,7 @@ Object.entries(data).forEach(([ip, details], ipIndex) => {
             headerName: "Date (Last 7 Days)",
             flex: 1,
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' }}>
+                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' ,cursor:'pointer'}}>
                     {params.value}
                 </div>
             ),
@@ -55,7 +57,16 @@ Object.entries(data).forEach(([ip, details], ipIndex) => {
 
     return (
         <Box m="20px">
-            <button onClick={onBack}>Back to Chart</button>
+
+             <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
             <Box m="40px 0 0 0" height="75vh">
                 <DataGrid rows={rows} columns={columns} />
             </Box>

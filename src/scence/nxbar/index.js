@@ -22,7 +22,7 @@ const NxBar = () =>{
 
     return(
         <Box>
-            <Header title="Bar Chart for nx domain" subtitle="Simple Bar Chart"/>
+            
             <Box height="75vh">
             {/* <NxBarChartMal onBarClick={handleBarClick} />  
             {showTable && <DomainTable selectedDate={selectedDate} />} */}
@@ -30,7 +30,7 @@ const NxBar = () =>{
                     <NxBarChartMal onBarClick={handleBarClick} />    
                 ):(
                     <DomainTable selectedDate={selectedDate} onBack={handleBack} />
-                )};
+                )}
                 
               
             </Box>

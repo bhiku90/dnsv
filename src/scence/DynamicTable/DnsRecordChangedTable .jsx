@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
-import { Paper } from '@mui/material';
+import { Paper,Box } from '@mui/material';
 
 const DnsRecordChangedTable = () => {
   const [rows, setRows] = useState([]);
@@ -100,7 +100,7 @@ const DnsRecordChangedTable = () => {
           DNS Records Changed in the Last 10 Updates
         </h1>
       </div>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Box sx={{ width: '100%', overflow: 'hidden' }}>
         <div style={{ height: 800, width: '100%' }}>
        
             <DataGrid
@@ -112,7 +112,7 @@ const DnsRecordChangedTable = () => {
             />
    
         </div>
-      </Paper>
+      </Box>
     </>
   );
 };

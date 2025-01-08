@@ -192,13 +192,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Bar Chart For DGA"
+            <Item
+              title="DGA Domain"
               to="/bardga"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
             {/* <Item
               title="Tree Chart"
               to="/tree"
@@ -228,7 +228,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title="NX Bar Chart"
+              title="NX Domains"
               to="/nxbar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}

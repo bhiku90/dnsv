@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 function DgaTable1({data, clickedDate, onDomainClick, onBack}) {
     const theme = useTheme();
     const [selectedDomainData, setSelectedDomainData] = useState(null);
+    const[loading,setLoading] = useState(false)
 
     //console.log("MdddData:=======",data);
     // const rows = [];
@@ -117,7 +118,7 @@ function getFirstNonNullValue(array) {
             flex: 1,
             cellClassName: "name-column--cell",
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' }} onClick={() => handleDomainCellClick(params.value)}>{params.value}</div>
+                <div style={{ whiteSpace: 'normal', lineHeight: 'normal',cursor:'pointer' }} onClick={() => handleDomainCellClick(params.value)}>{params.value}</div>
             ),
         },
         {
@@ -165,6 +166,7 @@ function getFirstNonNullValue(array) {
         console.log('Input domain is @@@@@@@@@@@@@@@@@@@:', inputDomain);
 
         try {
+            setLoading(true)
             const last7Days = Array.from({ length: 7 }, (_, i) =>
                 dayjs().subtract(i + 1, 'day').format('YYYY-MM-DD')
             );
@@ -222,6 +224,39 @@ function getFirstNonNullValue(array) {
             console.error('Error fetching data for the last 7 days:', error);
         }
     };
+    if (loading) {
+        const dotStyle = (delay) => ({
+            animation: `blink 1.5s infinite`,
+            animationDelay: `${delay}s`,
+            opacity: 0,
+        });
+    
+        const keyframes = `
+            @keyframes blink {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+        `;
+    
+        return (
+            <>
+                <style>{keyframes}</style>
+                <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%', }}>
+                    Loading
+                    <span>
+                        <span style={dotStyle(0.2)}>.</span>
+                        <span style={dotStyle(0.4)}>.</span>
+                        <span style={dotStyle(0.6)}>.</span>
+                        <span style={dotStyle(0.8)}>.</span>
+                    </span>
+                </div>
+            </>
+        );
+    }
+
 
   return (
     <Box m="20px">

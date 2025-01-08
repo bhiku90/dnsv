@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
 
 function MddTable2({data, onClientIpClick, onBack,loading}) {
     console.log("loading value is ##############",loading)
@@ -29,7 +31,7 @@ function MddTable2({data, onClientIpClick, onBack,loading}) {
             flex: 1,
             cellClassName: "name-column--cell",
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' }} onClick={() => handleIpCellClick(params.value)}>{params.value}</div>
+                <div style={{ whiteSpace: 'normal', lineHeight: 'normal',cursor:'pointer' }} onClick={() => handleIpCellClick(params.value)}>{params.value}</div>
             ),
         },
         {
@@ -68,7 +70,10 @@ function MddTable2({data, onClientIpClick, onBack,loading}) {
     return (
         <>
             <style>{keyframes}</style>
-            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', }}>
+            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%', }}>
                 Loading
                 <span>
                     <span style={dotStyle(0.2)}>.</span>
@@ -86,7 +91,15 @@ function MddTable2({data, onClientIpClick, onBack,loading}) {
   return (
     <Box m="20px">
         {/* <Header subtitle={`Data For IP: ${''}`}/> */}
-        <button onClick={onBack}>Back to Chart</button>
+        <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
         <Box m="40px 0 0 0" height="75vh">
             <DataGrid rows={rows} columns={columns}/>
         </Box>

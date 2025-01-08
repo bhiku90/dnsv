@@ -27,7 +27,7 @@ function DgaTable2({data, onClientIpClick, onBack}) {
             flex: 1,
             cellClassName: "name-column--cell",
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'normal', lineHeight: 'normal' }} onClick={() => handleIpCellClick(params.value)}>{params.value}</div>
+                <div style={{ whiteSpace: 'normal', lineHeight: 'normal',cursor:'pointer' }} onClick={() => handleIpCellClick(params.value)}>{params.value}</div>
             ),
         },
         {
