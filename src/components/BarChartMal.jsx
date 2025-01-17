@@ -3,39 +3,56 @@ import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { fetchApiData7daysMdd, fetchApiDataMddDomain } from "../data/mockData";
 import { useState, useEffect } from "react";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
+import { Link } from "react-router-dom";
 
 import { fetchApiData7daysDga } from "../data/mockData";
 
 
-const BarChartMal = ({isDashboard = false, onBarClick}) =>{
+const BarChartMal = ({isDashboard = false, onBarClick, onBack,}) =>{
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const[loading,setLoading] = useState(true);
     const [mddapidata, setmddapiData] = useState([]);
     const [clickedDateData, setClickedDateData] = useState(null);
+    const[upm,setUpm] = useState(false);
 
     useEffect(() =>{
    
       const getMddData = async () =>{
         setLoading(true)
+        setUpm(false)
         try {
         const mddData = await fetchApiData7daysMdd();
         
-        setmddapiData(mddData.data);
-        console.log("mddData is : -" , mddData.data);
+     
         setLoading(false)
+
+        if(mddData.status == "UPM")
+        {
+          setUpm(true)
+        }
+        else{
+          setmddapiData(mddData.data);
+        }
         }catch (error){
           setLoading(true)
 
-          console.log("Error feching data for the Malicious chart :",error.message);   
+        
         } 
       
       }
       getMddData();
     },[])
 
-    //console.log("data=",data);
+    console.log("data=",mddapidata);
+    const sum = Object.values(mddapidata).reduce((acc, value) => acc + value, 0);
+    
+   
+
+console.log(sum); // Output: 364
     const modifiedData = Object.entries(mddapidata).map(([key, value]) => {
         return { key,value };
     });
@@ -60,17 +77,31 @@ const BarChartMal = ({isDashboard = false, onBarClick}) =>{
       const handleBarClick = async (bar) => {
        
         const clickedDate = bar.indexValue; // 'key' is the date in this case
-        console.log("Clicked date:", clickedDate);
+   
        
 
     
         try {
+          setUpm(false)
           setLoading(true);
           //Make API call with the clicked date
           const response = await fetchApiDataMddDomain(clickedDate);
-          console.log("Data for clicked date:", response);
-          setClickedDateData(response); //Store the response data from the clicked date
-          onBarClick({data: response.data, date: clickedDate});
+          console.log("response data is",response)
+          if(response.status=="UPM")
+          {
+            setLoading(false)
+            setUpm(true);
+           
+          }
+          else{
+            setClickedDateData(response);
+            onBarClick({data: response.data, date: clickedDate});
+
+          }
+
+       
+           //Store the response data from the clicked date
+          
         } catch (error) {
           console.error("Error fetching data for clicked date:", error);
         }
@@ -107,7 +138,37 @@ const BarChartMal = ({isDashboard = false, onBarClick}) =>{
             </>
         );
     }
+    
+    if(upm){
+      return (
 
+        <>
+       
+         <Button
+                onClick={()=>{setUpm(false)}}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+                sx={{ml:"20px"}}
+
+            >
+                Back
+            </Button>
+            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',}}>
+          Sorry..! Data is not avilable at the moment..!
+         
+      </div>
+
+        
+        </>
+        
+      )
+      
+
+  };
 
     return (
         <ResponsiveBar
@@ -260,3 +321,6 @@ const BarChartMal = ({isDashboard = false, onBarClick}) =>{
 }
 
 export default BarChartMal;
+
+
+

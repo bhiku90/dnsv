@@ -3,6 +3,7 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from '@mui/material';
+import Header from '../../components/Header';
 
 function MddTable2({data, onClientIpClick, onBack,loading}) {
     console.log("loading value is ##############",loading)
@@ -11,7 +12,7 @@ function MddTable2({data, onClientIpClick, onBack,loading}) {
     const [selectedIpData, setSelectedIpData] = useState(null);
     
 
-    console.log("Table2Data###############=",data);
+    console.log("Table2Data###############=",data.data);
     
     const rows = Object.entries(data.data).map(([ip, queryData], index) => ({
         id: index,

@@ -2,14 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button, CircularProgress, Typography, Paper } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Header from '../../components/Header';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const Last5DaysTable = () => {
+const Last5DaysTable = ({onBack}) => {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(1); 
   const [itemsPerPage] = useState(10);
   const [totalItems, setTotalItems] = useState(0); 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); 
+
+  
+  const navigate=useNavigate();
+  const handleBack =(path)=>{
+    navigate(path);
+  }
 
   const fetchData = async (currentPage) => {
     setLoading(true);
@@ -29,7 +38,7 @@ const Last5DaysTable = () => {
           if (Array.isArray(ip_info) && ip_info.length > 0) {
             ip_info.forEach((ipData, index) => {
               processedData.push({
-                srno:srno++,
+                srno:index === 0 ? srno++ : '',
                 id: rowId++,
                 domainName: index === 0 ? fqdn : '',
                 ip: ipData.ip,
@@ -67,23 +76,76 @@ const Last5DaysTable = () => {
     { field: 'queryCount', headerName: 'No. of Queries', type: 'number', width: 180 },
   ];
 
+  if (loading) {
+    const dotStyle = (delay) => ({
+        animation: `blink 1.5s infinite`,
+        animationDelay: `${delay}s`,
+        opacity: 0,
+    });
+
+    const keyframes = `
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+    `;
+
+    return (
+      <>
+      <Header title="Domain queried for the first time in the last 5 days" />
+   
+      <style>{keyframes}</style>
+      <div
+          style={{
+              fontSize: '20px',
+              fontFamily: 'Arial, sans-serif',
+              justifyContent: 'center',
+              alignItems: 'center',
+              display: 'flex',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-45%, -50%)',  // Centers the div both horizontally and vertically
+              height: '100vh',  // Ensures the container takes up the full height of the viewport
+              width: '100vw'   // Ensures the container takes up the full width of the viewport
+          }}
+      >
+          Loading
+          <span>
+              <span style={dotStyle(0.2)}>.</span>
+              <span style={dotStyle(0.4)}>.</span>
+              <span style={dotStyle(0.6)}>.</span>
+              <span style={dotStyle(0.8)}>.</span>
+          </span>
+      </div>
+  </>
+  
+    );
+}
+
   return (
     <Box sx={{ height: '100%', width: '100%', padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>
-        Domain queried for the first time in the last 5 days
-      </Typography>
-      {loading ? (
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
-          <CircularProgress />
-          <Typography variant="h6">Loading data...</Typography>
-        </Box>
-      ) : error ? (
+      
+
+<Header title="Domain queried for the first time in the last 5 days" />
+<Button
+                      //onClick={onBack}
+                      onClick={()=>handleBack('/')}
+                      variant="outlined"
+                      color="info"
+                      startIcon={<ArrowBackIcon />}
+                      sx={{marginBottom:"10px"}}
+      
+                  >
+                      Back
+                  </Button>
+      { error ? (
         <Typography variant="h6" color="error">
           {error}
         </Typography>
       ) : (
-        <>
-          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        
+          <Box sx={{ width: '100%', overflow: 'hidden' }}>
             <div style={{ height: 800, width: '100%' }}>
               <DataGrid
                 rows={rows}
@@ -92,29 +154,9 @@ const Last5DaysTable = () => {
                 disableSelectionOnClick
               />
             </div>
-          </Paper>
-          <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="20px">
-            <Button
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-              variant="contained"
-              color="primary"
-            >
-              Previous
-            </Button>
-            <Typography>
-              Page {page} of {Math.ceil(totalItems / itemsPerPage)}
-            </Typography>
-            <Button
-              onClick={() => setPage(page + 1)}
-              disabled={page * itemsPerPage >= totalItems}
-              variant="contained"
-              color="primary"
-            >
-              Next
-            </Button>
           </Box>
-        </>
+        
+ 
       )}
     </Box>
   );
@@ -127,288 +169,3 @@ export default Last5DaysTable;
 
 
 
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { DataGrid } from '@mui/x-data-grid';
-// import { Paper } from '@mui/material';
-
-// const Last5DaysTable = () => {
-//   const [rows, setRows] = useState([]);
-//   const [loading,setLoading] = useState(true);
-//   const [columns] = useState([
-//     { field: 'domainName', headerName: 'Domain Name', width: 250 },
-//     { field: 'ip', headerName: 'IP', width: 180 },
-//     { field: 'date', headerName: 'Date', width: 150 },
-//     { field: 'status', headerName: 'Status', width: 120 },
-//     { field: 'queryCount', headerName: 'No. of Queries', type: 'number', width: 180 },
-//   ]);
-
-
-//   useEffect(() => {
-//     axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days')
-//       .then((response) => {
-//         const processedData = [];
-//         let rowId = 0;
-
-        
-//         response.data.data.forEach((domain) => {
-//           if (domain.fqdn && domain.ip_info) {
-//             const { fqdn, ip_info } = domain;
-
-//             if (Array.isArray(ip_info) && ip_info.length > 0) {
-//               ip_info.forEach((ipData, index) => {
-//                 processedData.push({
-//                   id: rowId++, 
-//                   domainName: index === 0 ? fqdn : '', 
-//                   ip: ipData.ip,
-//                   date: ipData.first_query_date,
-//                   status: ipData.status,
-//                   queryCount: ipData.query_count_last_5_days,
-//                 });
-//               });
-//             } else {
-//               console.warn(`No IP info for domain: ${fqdn}`);
-//             }
-//           }
-//         });
-
-//         setRows(processedData);
-//         setLoading(false);
-//       })
-//       .catch((error) => {
-//         console.error("There was an error fetching the data!", error);
-//         setLoading(true);
-//       });
-//   }, []);
-
-//   return (
-//     <>
-//        <div>
-//         <h1>
-//             Domain quried for the first ime in last 5 days.
-//         </h1>
-//     </div>
-//     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-//       <div style={{ height: 800, width: '100%' }}>
-//         {loading ? (
-//             <div>
-//                 loading......
-//             </div>
-         
-//         ) : (
-//           <DataGrid
-//             rows={rows}
-//             columns={columns}
-//             pageSize={10} 
-//             rowsPerPageOptions={[5, 10, 25]} 
-//             disableSelectionOnClick 
-//           />
-//         )}
-//       </div>
-//     </Paper>
-//     </>
-//   );
-// };
-
-// export default Last5DaysTable;
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { DataGrid } from '@mui/x-data-grid';
-// import { Paper } from '@mui/material';
-
-// const Last5DaysTable = () => {
-//   const [rows, setRows] = useState([]);
-//   const [columns] = useState([
-//     { field: 'domainName', headerName: 'Domain Name', width: 250 },
-//     { field: 'ip', headerName: 'IP', width: 180 },
-//     { field: 'date', headerName: 'Date', width: 150 },
-//     { field: 'status', headerName: 'Status', width: 120 },
-//     { field: 'queryCount', headerName: 'No. of Queries', type: 'number', width: 180 },
-//   ]);
-
- 
-//   useEffect(() => {
-//     axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days')
-//       .then((response) => {
-//         const processedData = [];
-
-        
-//         response.data.data.forEach((domain) => {
-       
-//           if (domain.fqdn && domain.ip_info) {
-//             const { fqdn, ip_info } = domain;
-
-//             if (Array.isArray(ip_info) && ip_info.length > 0) {
-//               ip_info.forEach((ipData, index) => {
-//                 processedData.push({
-//                   id: `${fqdn}-${index}`,
-//                   domainName: fqdn,
-//                   ip: ipData.ip,
-//                   date: ipData.first_query_date,
-//                   status: ipData.status,
-//                   queryCount: ipData.query_count_last_5_days,
-//                 });
-//               });
-//             } else {
-//               console.warn(`No IP info for domain: ${fqdn}`);
-//             }
-//           }
-//         });
-
-//         setRows(processedData);
-//       })
-//       .catch((error) => {
-//         console.error("There was an error fetching the data!", error);
-//       });
-//   }, []);
-
-//   return (
-//     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-//       <div style={{ height: 800, width: '100%' }}>
-//         <DataGrid
-//           rows={rows}
-//           columns={columns}
-//           pageSize={10} 
-//           rowsPerPageOptions={[5, 10, 25]} 
-//           disableSelectionOnClick 
-//         />
-//       </div>
-//     </Paper>
-//   );
-// };
-
-// export default Last5DaysTable;
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { DataGrid } from '@mui/x-data-grid';
-// import { Paper } from '@mui/material';
-
-// const Last5DaysTable = () => {
-//   const [data, setData] = useState([]);
-//   const [rows, setRows] = useState([]);
-//   const [columns, setColumns] = useState([
-//     { field: 'domainName', headerName: 'Domain Name', width: 250 },
-//     { field: 'ip', headerName: 'IP', width: 180 },
-//     { field: 'date', headerName: 'Date', width: 150 },
-//     { field: 'status', headerName: 'Status', width: 120 },
-//     { field: 'queryCount', headerName: 'No. of Queries', type: 'number', width: 180 },
-//   ]);
-
-
-//   useEffect(() => {
-//     axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days')
-//       .then((response) => {
-//         console.log('API Response:', response.data);
-//         const processedData = [];
-//         response.data.data.forEach((domain) => {
-//           const { fqdn, ip_info } = domain;
-//           ip_info.forEach((ipData, index) => {
-//             processedData.push({
-//               id: `${fqdn}-${index}`, 
-//               domainName: fqdn,
-//               ip: ipData.ip,
-//               date: ipData.first_query_date,
-//               status: ipData.status,
-//               queryCount: ipData.query_count_last_5_days,
-//             });
-//           });
-//         });
-//         setRows(processedData);
-//       })
-//       .catch((error) => {
-//         console.error("There was an error fetching the data!", error);
-//       });
-//   }, []);
-
-//   return (
-//     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-//       <div style={{ height: 400, width: '100%' }}>
-//         <DataGrid
-//           rows={rows}
-//           columns={columns}
-//           pageSize={10} 
-//           rowsPerPageOptions={[5, 10, 25]} 
-//         />
-//       </div>
-//     </Paper>
-//   );
-// };
-
-// export default Last5DaysTable;
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { DataGrid } from '@mui/x-data-grid';
-
-// const Last5daysTable = () => {
-//   const [data, setData] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       setLoading(true);
-//       try {
-//         const response = await axios.get('https://typo.coednssecurity.in:5001/recentqueriedlast5days');
-//         const rows = response.data.data.map((item,index) => ({
-//           id: index,
-//           domainName: item.fqdn,
-//           queryCount: item.query_count_last_5_days,
-        
-//         }));
-//         setData(rows);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const columns = [
-//     { field: 'domainName', headerName: 'Domain Name', width: 200 },
-//     { field: 'queryCount', headerName: 'No. of Queries', width: 160 },
-//     { field: 'status', headerName: 'status ', width: 160 },
-//   ];
-//   if(loading)
-//   {
-//     return(
-//       <div>Loading..</div>
-//     );
-//   }
-
-//   return (
-//     <div>
-//       <h2>Total Input Domains</h2>
-//       <div style={{ height: 400, width: '100%' }}>
-//         <DataGrid
-//           rows={data}
-//           columns={columns}
-//           pageSize={pagination.pageSize}
-//           rowsPerPageOptions={[10, 25, 50]}
-//           pagination
-//           loading={loading}
-//           page={pagination.page}
-//           onPageChange={(newPage) => setPagination((prev) => ({ ...prev, page: newPage }))}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Last5daysTable;

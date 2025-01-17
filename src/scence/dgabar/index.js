@@ -8,13 +8,15 @@ import { useState } from "react";
 
 
 
-const BarDga = () => {
+const BarDga = ({dgaData,dgaLoading,upm}) => {
     
     const [selectBar, setSelectedBar] = useState(null);
     const [clickedDate, setClickedDate] = useState(null);
     const [selectedDomain, setSelectedDomain] = useState(null);
     const [selectedClientIp, setSelectedClientIp] = useState(null);
     const [table3Data, setTable3Data] = useState(null);
+    const [domainName, setDomainName] = useState("");
+    const[ip,setIP] = useState("")
 
     const handleBarClick = (barData) => {
         setSelectedBar(barData.data);
@@ -23,9 +25,11 @@ const BarDga = () => {
 
     const handleDomainClick = async (domainData) => {
         setSelectedDomain(domainData);
+        setDomainName(domainData.domainName);
     };
 
     const handleClientIpClick = async (clickedIp) => {
+        setIP(clickedIp)
         console.log("Client IP clicked for Table2:", clickedIp);
         const filteredData = selectedDomain.data[clickedIp];
         setSelectedClientIp(clickedIp);
@@ -47,19 +51,28 @@ const BarDga = () => {
 
     return (
         <Box>
-            <Header title="DGA Domain in Last 7 days"  />
+           
             <Box height="75vh">
                 {!selectBar ? (
-                    <BarChartDga onBarClick={handleBarClick} />
+                    <>
+                     <Header title="DGA Domain in Last 7 days"  />
+                     <BarChartDga onBarClick={handleBarClick} dgaData={dgaData}  dgaLoading={dgaLoading} upm={upm}/></>
                 ) : selectedClientIp ? (
+                    <>
+                    <Header title={`Number of queries for IP Address ${ip} in Last 7 Days`} />
                     <DgaTable3 data={table3Data} onBack={handleBackToTable2} />
+                    </>
                 ) : selectedDomain ? (
+                    <>
+                      <Header title={`Requested IP Addresses For ${domainName} in Last 7 Days`} />
                     <DgaTable2
                         data={selectedDomain}
                         onClientIpClick={handleClientIpClick}
                         onBack={handleBackToTable1}
-                    />
+                    /></>
+                  
                 ) : (
+
                     <DgaTable1
                         data={selectBar}
                         clickedDate={clickedDate}

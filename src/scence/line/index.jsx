@@ -5,7 +5,7 @@ import LineChart from "../../components/LineChart";
 const Line = () =>{
     return(
         <Box>
-            <Header title="Line Chart For Mal and DGA" subtitle="Simple Line Chart"/>
+            
             <Box height="75vh">
               <LineChart />  
             </Box>

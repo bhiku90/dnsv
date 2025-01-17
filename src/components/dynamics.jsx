@@ -9,59 +9,67 @@ import NewIpTable from '../scence/DynamicTable/NewIpTable.jsx';
 import DnsRecordChangedTable from '../scence/DynamicTable/DnsRecordChangedTable .jsx';
 import { fetchApiDataDynamics } from '../data/mockData.js';
 import Header from "../components/Header.jsx";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
  const TreeMapDisplay = () => {
   const [data, setData] = useState(null);
   const [selectedDomain, setSelectedDomain] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
   const logScale = (value) => Math.log10(value);
+  const[loading,setLoading] = useState(true);
+  const[upm,setUpm] = useState(false)
 
 
   const customLabel = (node) => {
-    return `${node.id}\n${node.data.originalValue}`;
+    return `${node.id} -- ${node.data.originalValue} `;
 };
-const nodeStyle = {
-  color :"white",
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center', 
-  textAlign: 'center', 
-  whiteSpace: 'pre-wrap', 
-};
+
 
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
+      setUpm(false)
       try {
         const responseData = await fetchApiDataDynamics();
 
-        const data =  [
-           { name: 'Domain which were queried for the First Time in Last 5 Days', loc: responseData.recentqueriedlast5days},
-           { name: 'Domain which started operating on new IP address in last 10 Days', loc: responseData.newipslast10days },
-           {name: 'Domains which became operational in last 10 days', loc: responseData.operationaldomain10days },
-           {name: 'Domains which went out-of-operation in last 10 days', loc: responseData.nonoperationaldomain10days },
-           {name: 'Domains which updated their Whois records in last 10 days', loc: responseData.dnsrecordlast10},
-        ];
+        setLoading(false);
+        if(responseData.status == "UPM")
+        {
+          setUpm(true);
+        }
+        else{
+          
+          const data =  [
+            { name: 'Domain which were queried for the First Time in Last 5 Days', loc: responseData.recentqueriedlast5days},
+            { name: 'Domain which started operating on new IP address in last 10 Days', loc: responseData.newipslast10days },
+            {name: 'Domains which became operational in last 10 days', loc: responseData.operationaldomain10days },
+            {name: 'Domains which went out-of-operation in last 10 days', loc: responseData.nonoperationaldomain10days },
+            {name: 'Domains which updated their Whois records in last 10 days', loc: responseData.dnsrecordlast10},
+         ];
+ 
+         const scaledData = data.map(item => ({
+           name: item.name,
+           value: logScale(item.loc), 
+           originalValue: item.loc,   
+         }));
+ 
+         const treeMapData = {
+           name: "root",
+           children: scaledData.map(item => ({
+             name: item.name,
+             value: item.value,
+             originalValue: item.originalValue,
+           })),
+         };
+ 
+         console.log(treeMapData);
+ 
+         setData(treeMapData);
 
-        const scaledData = data.map(item => ({
-          name: item.name,
-          value: logScale(item.loc), 
-          originalValue: item.loc,   
-        }));
+        }
 
-        const treeMapData = {
-          name: "root",
-          children: scaledData.map(item => ({
-            name: item.name,
-            value: item.value,
-            originalValue: item.originalValue,
-          })),
-        };
-
-        console.log(treeMapData);
-
-        setData(treeMapData);
+       
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -102,50 +110,66 @@ const nodeStyle = {
 
   if (!data) {
     const dotStyle = (delay) => ({
-      animation: `blink 1.5s infinite`,
-      animationDelay: `${delay}s`,
-      opacity: 0,
+        animation: `blink 1.5s infinite`,
+        animationDelay: `${delay}s`,
+        opacity: 0,
     });
 
     const keyframes = `
-      @keyframes blink {
-        0%, 100% { opacity: 0; }
-        50% { opacity: 1; }
-      }
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
     `;
 
     return (
-      <>
-        <style>{keyframes}</style>
-        <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif', justifyContent: "center", alignItems: "center", display: 'flex' }}>
-          Loading
-          <span>
-            <span style={dotStyle(0.2)}>.</span>
-            <span style={dotStyle(0.4)}>.</span>
-            <span style={dotStyle(0.6)}>.</span>
-            <span style={dotStyle(0.8)}>.</span>
-          </span>
-        </div>
-      </>
+        <>
+            <style>{keyframes}</style>
+            <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%', }}>
+                Loading
+                <span>
+                    <span style={dotStyle(0.2)}>.</span>
+                    <span style={dotStyle(0.4)}>.</span>
+                    <span style={dotStyle(0.6)}>.</span>
+                    <span style={dotStyle(0.8)}>.</span>
+                </span>
+            </div>
+        </>
     );
-  }
+}
+  if(upm){
+    return (
+      <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',}}>
+        Sorry..! Data is not avilable at the moment..!
+       
+    </div>
+    )
+    
+
+};
 
   let tableComponent;
   switch (selectedDomain) {
     case 'Domain which were queried for the First Time in Last 5 Days':
-      tableComponent = <Last5daysTable />;
+      tableComponent = <Last5daysTable onBack={handleBackToMap} />;
       break;
     case 'Domain which started operating on new IP address in last 10 Days':
-      tableComponent = <NewIpTable />;
+      tableComponent = <NewIpTable onBack={handleBackToMap}  />;
       break;
     case 'Domains which became operational in last 10 days':
-      tableComponent = <OperationalTable />;
+      tableComponent = <OperationalTable onBack={handleBackToMap}  />;
       break;
     case 'Domains which went out-of-operation in last 10 days':
-      tableComponent = <NonOperationalTable />;
+      tableComponent = <NonOperationalTable onBack={handleBackToMap}  />;
       break;
     case 'Domains which updated their Whois records in last 10 days':
-      tableComponent = <DnsRecordChangedTable />;
+      tableComponent = <DnsRecordChangedTable onBack={handleBackToMap}  />;
       break;
     default:
       tableComponent = null;
@@ -164,25 +188,9 @@ const nodeStyle = {
 
   identity="name"
   value="value"
-  // label={node => {
-  //   console.log("in label",node)
-  //   return `${node.data.name}\nValue: ${node.data.originalValue}`;  // Use \n to indicate new lines
-  // }}
+  
   label={customLabel}
-//   nodeComponent={({ node }) => (
-//     <g>
-//         <rect width={node.width} height={node.height} fill={node.color} />
-//         <text 
-//             x={node.x + node.width / 2} 
-//             y={node.y + node.height / 2} 
-//             style={nodeStyle}
-//             textAnchor="middle"
-//             dominantBaseline="middle"
-//         >
-//             {customLabel(node)}
-//         </text>
-//     </g>
-// )}
+
 
   borderWidth="4px"
   parentLabelSize={20}
@@ -224,9 +232,15 @@ const nodeStyle = {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleBackToMap} style={{ marginBottom: '20px' }}>
-        Back to Map
-      </Button>
+       {/* <Button
+                onClick={handleBackToMap}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button> */}
       {tableComponent}
     </div>
   );

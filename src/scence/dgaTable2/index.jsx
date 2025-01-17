@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
+
 
 function DgaTable2({data, onClientIpClick, onBack}) {
    
@@ -48,7 +51,15 @@ function DgaTable2({data, onClientIpClick, onBack}) {
   return (
     <Box m="20px">
         {/* <Header subtitle={`Data For IP: ${''}`}/> */}
-        <button onClick={onBack}>Back to Chart</button>
+        <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
         <Box m="40px 0 0 0" height="75vh">
             <DataGrid rows={rows} columns={columns}/>
         </Box>

@@ -8,83 +8,17 @@ import { Button } from '@mui/material';
 import dayjs from "dayjs";
 import { CircularProgress, Typography } from "@mui/material";
 import { Width } from 'devextreme-react/cjs/chart';
+import Header from "../../components/Header";
 
 function MddTable1({ data, clickedDate, onDomainClick, onBack }) {
+
+    console.log("mdd api data ",data)
     const theme = useTheme();
     const [selectedDomainData, setSelectedDomainData] = useState(null);
     const [loading, setLoading] = useState(false);
 
 
-    //console.log("MdddData:=======",data);
-    // const rows = [];
-    // Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
-    //     domainDataArray.forEach((item, ipIndex) => {
-    //         rows.push({
-    //             id: `${domainIndex}-${ipIndex}`, // Unique ID for each row
-    //             fqdn: item.fqdn || 'N/A', //Only display fqdn for the first IP of the group
-    //             ip: item.data.map((d) => d.ip || 'N/A').join(", "),
-    //             status: item.data.map((d) => d.status).join(", "),
-    //             location: item.data.map((d) => d    .location).join(", "),
-    //             activedate: item.data.map((d) => d.activedate[0]).join(", "),
-    //             inactivedate: item.data.map((d) => d.inactivedate?.[0] || 'N/A').join(", "),
-    //             registrar: Array.isArray(item.registrar) ? item.registrar.join(", ") : item.registrar,
-    //             registrant: Array.isArray(item.registrant) ? item.registrant.join(",") : item.registrant,
-    //             rawData: item,
-    //         });
-    //     });
-    // });
-
-
-
-    //     const rows = [];
-    // Object.entries(data).forEach(([domainIndex, domainDataArray]) => {
-    //     domainDataArray.forEach((item, itemIndex) => {
-    //         const fqdn = item.fqdn || 'NA'; 
-    //         const registrar = getFirstNonNullValue(item.registrar); 
-    //         const registrant = getFirstNonNullValue(item.registrant); 
-    //         //const domainRows = [];
-
-    //         rows.push({
-    //             id: `${domainIndex}-${itemIndex}-domain`, 
-    //             fqdn, 
-    //             ip: '', 
-    //             status: '', 
-    //             location: '', 
-    //             activedate: '', 
-    //             inactivedate: '', 
-    //             registrar: registrar || 'N/A',
-    //             registrant: registrant || 'N/A', 
-    //             rawData: item, 
-    //         });
-
-
-    //         item.data.forEach((d, dataIndex) => {
-    //             rows.push({
-    //                 id: `${domainIndex}-${itemIndex}-${dataIndex}`,
-    //                 fqdn: '',
-    //                 ip: d.ip || 'N/A', 
-    //                 status: d.status || 'N/A', 
-    //                 location: d.location == 'not there' ? 'N/A' : d.location || 'N/A',
-    //                 activedate: d.activedate[0] || 'N/A', 
-    //                 inactivedate: d.inactivedate?.[0] || 'N/A', 
-    //                 registrar: '',
-    //                 registrant: '', 
-    //                 rawData: item, 
-    //             });
-    //         });
-
-
-
-
-
-
-
-    //     });
-    // });
-    // function getFirstNonNullValue(array) {
-    //     if (!Array.isArray(array)) return array; 
-    //     return array.find((val) => val !== null) || 'N/A'; 
-    // }
+   
 
 
     const rows = [];
@@ -154,8 +88,6 @@ function MddTable1({ data, clickedDate, onDomainClick, onBack }) {
             headerName: "Sr-No",
             width: 50,
             flex: 1,
-
-
         },
         {
             field: "fqdn",
@@ -328,8 +260,7 @@ function MddTable1({ data, clickedDate, onDomainClick, onBack }) {
 
     return (
         <Box m="20px">
-            {/* <Header subtitle={`Data For IP: ${''}`}/> */}
-
+          <Header title={`Malicious Domains for ${clickedDate}`}></Header>
             <Button
                 onClick={onBack}
                 variant="outlined"
@@ -341,7 +272,7 @@ function MddTable1({ data, clickedDate, onDomainClick, onBack }) {
             </Button>
             <Box m="40px 0 0 0" height="75vh">
 
-                <DataGrid rows={rows} columns={columns} />
+                <DataGrid rows={rows} columns={columns} rowsPerPageOptions={[200]}/>
 
             </Box>
         </Box>

@@ -5,9 +5,12 @@ import { tokens } from '../theme';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from '@mui/material';
 import { Box } from 'devextreme-react';
+import Header from './Header';
 
 
-const LineChart = ({ isDashboard = false, data, onBack }) => {
+const LineChart = ({ isDashboard = false, data, onBack,clickedIp }) => {
+  console.log("last dat",data)
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -37,10 +40,12 @@ const LineChart = ({ isDashboard = false, data, onBack }) => {
 
     <>
 
+     
+      <Header title={`Number of requests in last 24 hours by IP ${clickedIp}`} />
       <Button
         onClick={onBack}
         variant="outlined"
-        sx={{marginLeft:"20px",mt:"-150px"}}
+        sx={{marginLeft:"20px"}}
         color="info"
         startIcon={<ArrowBackIcon />}
 
@@ -101,7 +106,7 @@ const LineChart = ({ isDashboard = false, data, onBack }) => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 30,
-          legend: isDashboard ? undefined : 'date',
+          legend: isDashboard ? undefined : 'Time',
           legendOffset: 70,
           legendPosition: 'middle',
           truncateTickAt: 0

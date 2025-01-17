@@ -23,7 +23,7 @@ const HoriBarMal = () => {
 
     return (
         <Box>
-            <Header title="Client with more than 1000 queries in last 24 hours" />
+           
             <Box height="75vh">
                 {!selectedBar && !clickedIp ? (
                     <Box height="1000vh">
@@ -31,7 +31,7 @@ const HoriBarMal = () => {
                     </Box>
                 ) : (
                     <Box height="75vh">
-                         <LineChart data={{...selectedBar}} onBack={handleBack}/> 
+                         <LineChart data={{...selectedBar}} onBack={handleBack} clickedIp={clickedIp}/> 
                          <TwentyfourHoursTable data={{ ...selectedBar }} clickedIp={clickedIp} onBack={handleBack} /> 
                     </Box>
                 )}

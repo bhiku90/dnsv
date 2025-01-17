@@ -4,6 +4,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { fetchApiDataDgaClientIp } from "../../data/mockData";
 import dayjs from "dayjs";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
+import Header from "../../components/Header";
 
 function DgaTable1({data, clickedDate, onDomainClick, onBack}) {
     const theme = useTheme();
@@ -260,8 +263,16 @@ function getFirstNonNullValue(array) {
 
   return (
     <Box m="20px">
-        {/* <Header subtitle={`Data For IP: ${''}`}/> */}
-        <button onClick={onBack}>Back to Chart</button>
+        <Header title={`DGA Domains for ${clickedDate}`}></Header>
+        <Button
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
         <Box m="40px 0 0 0" height="75vh">
             <DataGrid rows={rows} columns={columns}/>
         </Box>

@@ -1,41 +1,53 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
-import { fetchApiData7daysMdd, fetchApiDataMddDomain ,fetchApiData7daysnxDomain,fetchApiDataClientIpnxDomain} from "../data/mockData";
+import {fetchApiData7daysnxDomain,fetchApiDataClientIpnxDomain} from "../data/mockData";
 import { useState, useEffect } from "react";
 import Header from "./Header";
 
 
 
-const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
+const NxBarChartMal = ({isDashboard = false,onBarClick,nxdata,nxLoading}) =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [nxapidata, setnxapiData] = useState([]);
     const [clickedDateData, setClickedDateData] = useState(null);
-    const [loading,setLoading] = useState(true);
+    //const [loading,setLoading] = useState(true);
+    //const[upm,setUpm] = useState(false);
     
 
 
-    useEffect(() =>{
-      setLoading(true);
-      const getNxData = async () =>{
-        try {
-        const nxData = await fetchApiData7daysnxDomain();
-        setnxapiData(nxData.data);
-        console.log("nxdomain data in nxbar : -" , nxData.data);
-        setLoading(false);
-        }catch (error){
-          console.log("Error feching data for the NX domain Bar chart :",error.message);
-          setLoading(true);   
-        }
-      }
-      getNxData();
-    },[])
+
+    // useEffect(() =>{
+    //   setLoading(true);
+    //   const getNxData = async () =>{
+    //     setUpm(false)
+    //     try {
+    //     const nxData = await fetchApiData7daysnxDomain();
+       
+    //     console.log("nxdomain data in nxbar : -" , nxData.data);
+    //     setLoading(false);
+    //     if(nxData.status == "UPM")
+    //     {
+    //       setUpm(true)
+    //     }
+    //     else
+    //     {
+    //       setnxapiData(nxData.data);
+    //     }
+    //     }catch (error){
+    //       console.log("Error feching data for the NX domain Bar chart :",error.message);
+    //       setLoading(true);   
+    //     }
+    //   }
+    //   getNxData();
+    // },[])
 
     //console.log("data=",data);
-    const modifiedData = Object.entries(nxapidata).map(([key, value]) => {
+
+    const modifiedData = Object.entries(nxdata || {})?.map(([key, value]) => {
         return { key,value };
-    });
+    });    
    
 
     const nivoColors = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3'];
@@ -60,7 +72,7 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
   };
 
 
-  if (loading) {
+  if (nxLoading) {
     const dotStyle = (delay) => ({
         animation: `blink 1.5s infinite`,
         animationDelay: `${delay}s`,
@@ -76,7 +88,8 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
 
     return (
         <>
-        <Header title="NX Domains in Last 7 days" />
+          <Header  title="NX Domains in Last 7 days" />
+        
             <style>{keyframes}</style>
             <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
                     left: 0,
@@ -94,12 +107,28 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
     );
 }
 
+// if(upm){
+//   return (
+//     <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex', top: 0,
+//       left: 0,
+//       width: '100%',
+//       height: '100%',}}>
+//       Sorry..! Data is not avilable at the moment..!
+     
+//   </div>
+//   )
+  
+
+// };
+
 
     return (
         
     
         
-        
+        <>
+                <Header  title="NX Domains in Last 7 days" />
+
         <ResponsiveBar
         data={modifiedData}
         theme={{
@@ -137,7 +166,7 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
             },
           }}
         indexBy="key"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 130, bottom: 50, left: 110 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
@@ -198,11 +227,12 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
         }}
         axisLeft={{
             tickSize: 5,
-            tickPadding: 5,
+            tickPadding: 15,
             tickRotation: 0,
             legend: isDashboard ? undefined : 'No of Request',
             legendPosition: 'middle',
-            legendOffset: -40,
+            
+            legendOffset: -80,
             truncateTickAt: 0
         }}
         labelSkipWidth={12}
@@ -246,6 +276,8 @@ const NxBarChartMal = ({isDashboard = false,onBarClick}) =>{
         barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}
     />
         
+        </>
+       
        
         
     );

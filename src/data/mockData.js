@@ -18,12 +18,12 @@ export const fetchApiData = async () => {
 
 export const fetchApiData7daysDga = async () => {
   try {
-    console.log("data is working fine")
+
     const response = await axios.get("https://typo.coednssecurity.in:5001/7daysdga");
-    console.table("7daysdga :-",response.data);
+
     return response.data;
   } catch (error) {
-    console.error("Error fetching data", error);
+
     throw error;
   }
 };
@@ -32,29 +32,29 @@ export const fetchApiData7daysDga = async () => {
 
 
 export const fetchApiDataDgaDomain = async (clickedDate) => {
-  console.log("Clicked date:", clickedDate);
+
   try {
     const response = await axios.post("https://typo.coednssecurity.in:5001/dgadomain",{
       date: clickedDate,
     });
-    console.log("Barmdddata :-",response.data);
+
     return response.data;
   } catch (error) {
-    console.error("Error fetching data", error);
+ 
     throw error;
   }
 };
 
 export const fetchApiDataDgaClientIp = async (clickedDate) => {
-  console.log("Clicked date:", clickedDate);
+
   try {
     const response = await axios.post("https://typo.coednssecurity.in:5001/dgaclientip",{
       date: clickedDate,
     });
-    console.log("Clientmdddata :-",response.data);
+
     return response.data;
   } catch (error) {
-    console.error("Error fetching data", error);
+
     throw error;
   }
 };
@@ -65,7 +65,7 @@ export const fetchApiDataDgaClientIp = async (clickedDate) => {
 export const fetchApiData7daysMdd = async () => {
   try {
     const response = await axios.get("https://typo.coednssecurity.in:5001/7daysmdd");
-    console.table("7daysmdddata :-",response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
@@ -76,12 +76,12 @@ export const fetchApiData7daysMdd = async () => {
 
 
 export const fetchApiDataMddDomain = async (clickedDate) => {
-  console.log("Clicked date:", clickedDate);
+
   try {
     const response = await axios.post("https://typo.coednssecurity.in:5001/mdddomain",{
       date: clickedDate,
     });
-    console.log("Barmdddata :-",response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
@@ -90,12 +90,12 @@ export const fetchApiDataMddDomain = async (clickedDate) => {
 };
 //fetchApiDataMddDomain();
 export const fetchApiDataMddClientIp = async (clickedDate) => {
-  console.log("Clicked date:", clickedDate);
+
   try {
     const response = await axios.post("https://typo.coednssecurity.in:5001/mddclientip",{
       date: clickedDate,
     });
-    console.log("Clientmdddata :-",response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
@@ -128,7 +128,7 @@ export const fetchApiDataMddClientIp = async (clickedDate) => {
 export const fetchApiData7daysnxDomain = async () => {
   try {
     const response = await axios.get("https://typo.coednssecurity.in:5001/7daysnxdomain");
-    console.table("nxdomain data :-",response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
@@ -139,9 +139,9 @@ export const fetchApiData7daysnxDomain = async () => {
 
 export const fetchApiDataDynamics = async () => {
   try {
-    console.log("data is working fine")
+ 
     const response = await axios.get("https://typo.coednssecurity.in:5001/dynamicstats");
-    console.table("7daysdga :-",response.data);
+ 
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -5,22 +6,14 @@ import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import clr from "../../assets/clr.png"
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
@@ -42,12 +35,22 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
+  // Toggle function for collapsing sidebar
+  const handleCollapseToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <Box
       sx={{
+        "& .pro-sidebar": {
+          height: "100vh", 
+          overflow: "hidden", 
+        },
         "& .pro-sidebar-inner": {
+         // transition: "width 0.6s ease-in-out",
           background: `${colors.primary[400]} !important`,
-          height: "160%"
+          height: "100vh", 
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -65,9 +68,9 @@ const Sidebar = () => {
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="circle">
-          {/* LOGO AND MENU ICON */}
+        
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleCollapseToggle} 
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
@@ -75,181 +78,39 @@ const Sidebar = () => {
             }}
           >
             {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="180px"
-              >
-                {/* <Typography variant="h2" color={colors.grey[100]} sx={{ m: "15px 0 15px 0px" }}>
-                  Center of <br/> Excellence In <br/> DNS Security
-                </Typography> */}
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} >
+       
+              
+              <Box display="flex" justifyContent="space-between" alignItems="center" ml="180px">
+                <IconButton onClick={handleCollapseToggle}>
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="5px"
-              >
-                <Typography variant="h2" color={colors.grey[100]} sx={{ m: "15px 0 80px 0px" }}>
-                  Center of <br/> Excellence In <br/> DNS Security
-                </Typography>
-                {/* <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton> */}
-              </Box>
-          </MenuItem>
+            <Box display="flex" justifyContent="space-between" alignItems="center" ml="5px">
+              <Typography variant="h2" color={colors.grey[100]} sx={{ m: "15px 0 40px 0px" }}>
+                Center of <br /> Excellence In <br /> DNS Security
+              </Typography>
+            </Box>
 
-          {!isCollapsed && (
-            <Box mb="25px">
-              {/* <Box display="flex" justifyContent="center" alignItems="center">
+           
+               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={``}
+                  width="170"
+                  height="auto"
+                  src={clr}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
-              </Box> */}
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Rakshak DNS
-                </Typography>
-                
-              </Box>
-            </Box>
-          )}
+              </Box> 
+          </MenuItem>
 
-          <Box paddingLeft={isCollapsed ? undefined : "0%"}>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography> */}
-            {/* <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            {/* <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-{/* 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Pages
-            </Typography>
-             */}
-        
-            {/* <Item
-              title="FAQ Page"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-
-            {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography> */}
-            <Item
-              sx={{fontSize:"10px"}}
-              title="Malicious Domain"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="DGA Domain"
-              to="/bardga"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            {/* <Item
-              title="Tree Chart"
-              to="/tree"
-              icon={<AccountTreeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            {/* <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            <Item
-              title="Client Queries > 1000"
-              to="/horibar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            {/* <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            <Item
-              title="NX Domains"
-              to="/nxbar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Recent Salient Statistics"
-              to="/dynamics"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            {/* <Item
-              title="view"
-              to="/nxdata"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-
-          </Box>
+          {/* Your existing menu items */}
+          <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
+          <Item title="Malicious Domain" to="/bar" icon={<BarChartOutlinedIcon />} selected={selected} setSelected={setSelected} />
+          <Item title="DGA Domain" to="/bardga" icon={<BarChartOutlinedIcon />} selected={selected} setSelected={setSelected} />
+          <Item title="Client Queries > 1000" to="/horibar" icon={<BarChartOutlinedIcon />} selected={selected} setSelected={setSelected} />
+          <Item title="NX Domains" to="/nxbar" icon={<BarChartOutlinedIcon />} selected={selected} setSelected={setSelected} />
+          <Item title="Recent Salient Statistics" to="/dynamics" icon={<BarChartOutlinedIcon />} selected={selected} setSelected={setSelected} />
         </Menu>
       </ProSidebar>
     </Box>

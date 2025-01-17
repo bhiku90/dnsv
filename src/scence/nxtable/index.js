@@ -4,6 +4,7 @@ import { Button,CircularProgress,Typography,Box } from '@mui/material';
 import { fetchApiDataClientIpnxDomain } from '../../data/mockData'; 
 import DomainDetail from '../../DomainDetail';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Header from '../../components/Header';
 
 
 
@@ -82,11 +83,28 @@ const DomainTable = ({selectedDate,onBack}) => {
       setViewDetail(false); 
       setSelectedDomainData(null); 
     };
+
+
+    if (loading) {
+      const dotStyle = (delay) => ({
+          animation: `blink 1.5s infinite`,
+          animationDelay: `${delay}s`,
+          opacity: 0,
+      });
   
-    return (
-      <Box sx={{ height: 800, width: '100%', padding: '20px' }}>
-      <div style={{display:"flex"}}>
-      <Button
+      const keyframes = `
+          @keyframes blink {
+              0%, 100% { opacity: 0; }
+              50% { opacity: 1; }
+          }
+      `;
+  
+      return (
+          <>
+           <Header title={`NX Domains for ${selectedDate}`}></Header>
+
+           <Button
+                sx={{height:"30px"}}
                 onClick={onBack}
                 variant="outlined"
                 color="info"
@@ -95,25 +113,59 @@ const DomainTable = ({selectedDate,onBack}) => {
             >
                 Back
             </Button>
-      <h1>Domain Data for {selectedDate}</h1>
+              <style>{keyframes}</style>
+              <div style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' ,justifyContent:"center",alignItems:"center",display: 'flex',top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%', }}>
+                  Loading
+                  <span>
+                      <span style={dotStyle(0.2)}>.</span>
+                      <span style={dotStyle(0.4)}>.</span>
+                      <span style={dotStyle(0.6)}>.</span>
+                      <span style={dotStyle(0.8)}>.</span>
+                  </span>
+              </div>
+          </>
+      );
+  }
+  
+    return (
+      <Box sx={{ height: 800, width: '100%', padding: '20px' }}>
+      <div style={{display:"flex"}}>
+      <Button
+                sx={{height:"30px"}}
+                onClick={onBack}
+                variant="outlined"
+                color="info"
+                startIcon={<ArrowBackIcon />}
+
+            >
+                Back
+            </Button>
+      
       </div>
      
+
+     
         
-        {loading ? (
-          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
-            <CircularProgress />
-            <Typography variant="h6">Loading data...</Typography>
-          </Box>
-        ) : error ? (
+        { error ? (
           <Typography variant="h6" color="error">{error}</Typography>
         ) : (
           <>
             {viewDetail ? (
-              <DomainDetail domainData={selectedDomainData} BacktoChart={handleBack} />
+              <>
+              <Header title={`NX Domains for ${selectedDate}`}></Header>
+      
+                 <DomainDetail domainData={selectedDomainData} BacktoChart={handleBack} />
+                 </>
+           
 
             ) : (
                 <>
+                 <Header title={`NX Domains for ${selectedDate}`}></Header>
               <div style={{ height: 800, width: '100%' }}>
+                
                 <DataGrid
                   rows={tableData}
                   columns={columns}
@@ -154,79 +206,3 @@ const DomainTable = ({selectedDate,onBack}) => {
 
 
 
-// const DomainTable = ({ selectedDate,onBack }) => {
-//     console.log("table date is",selectedDate)
-//     const [data, setData] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [page, setPage] = useState(1);
-//     const [totalPages, setTotalPages] = useState(0);
-//     const itemsPerPage = 50;
-
-//     const loadData = async (page) => {
-//         setLoading(true);
-//         try {
-//             const { formattedData, totalPages } = await fetchApiDataClientIpnxDomain( selectedDate,page, itemsPerPage); 
-//             setData(formattedData);
-//             console.log("data is",data);
-//             setTotalPages(totalPages);
-//         } catch (error) {
-//             console.error('Failed to load data', error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-  
-
-//     useEffect(() => {
-//         if (selectedDate) {
-//             loadData(page);
-//         }
-//     }, [selectedDate, page]);
-
-//     const handleNext = () => {
-//         if (page < totalPages) setPage(page + 1);
-//     };
-
-//     const handlePrev = () => {
-//         if (page > 1) setPage(page - 1);
-//     };
-
-//     const columns = [
-//         { field: 'domain', headerName: 'Domain Name', width: 200 },
-//         { field: 'type', headerName: 'Query Type', width: 150 },
-//         { field: 'count', headerName: 'Count', width: 100 },
-//     ];
-
-//     return (
-//         <div>
-//             <h1>Domain Data for {selectedDate}</h1>
-//             <Button variant="contained" color="primary" onClick={onBack}>
-//             Back to chart
-//         </Button>
-//             {loading ? (
-//                 <p>Loading...</p>
-//             ) : (
-//                 <div style={{ height: 800, width: '100%' }}>
-//                     <DataGrid
-//                         rows={data}
-//                         columns={columns}
-//                         pageSize={itemsPerPage}
-//                         rowsPerPageOptions={[itemsPerPage]}
-//                         pagination
-//                         disableSelectionOnClick
-
-
-
-//                     />
-//                 </div>
-//             )}
-//             <div>
-//                 <Button onClick={handlePrev} disabled={page === 1} variant="contained" color="primary" >Previous</Button>
-//                 <span> Page {page} of {totalPages} </span>
-//                 <Button onClick={handleNext} disabled={page === totalPages} variant="contained" color="primary" >Next</Button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default DomainTable;

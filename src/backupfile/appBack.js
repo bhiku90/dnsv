@@ -26,15 +26,12 @@ import { fetchApiData7daysDga,fetchApiData7daysnxDomain} from './data/mockData'
 
 
 
-
 function App() {
   const [theme, colorMode] = useMode();
   const [dgaSum, setDgaSum] = useState(null);
   const [dgaLoading, setDgaLoading] = useState(true);
   const [nxSum, setNxSum] = useState(null);
   const [nxData,setnxData] = useState(null)
-  const [dgaData,setdgaData] = useState(null)
-  const[upm,setUpm]=useState(false);
   const [nxLoading, setNxLoading] = useState(true);
 
 
@@ -64,13 +61,6 @@ function App() {
     try {
       const dgaData = await fetchApiData7daysDga();
       console.log("DGA data:", dgaData);
-      if(dgaData.status=="UPM")
-      {
-        setUpm(true)
-      }
-      else{
-      setdgaData(dgaData.data);
-    }
 
       const sum = Object.values(dgaData.data).reduce((acc, value) => acc + value, 0);
       console.log("Calculated sum:", sum);
@@ -134,11 +124,10 @@ function App() {
           />
               <Route path="/team" element={<TwentyfourHoursTable />} />
               <Route path="/bar" element={<Bar  />} />
-              <Route path="/bardga" element={<BarDga  dgaData={dgaData} dgaLoading={dgaLoading} upm={upm}/>} />
+              <Route path="/bardga" element={<BarDga />} />
               <Route path="/tree" element={<Tree />} />
               <Route path="/line" element={<Line />} />
               <Route path="/horibar" element={<HoriBar />} />
-             
               <Route path="/nxbar" element={<NxBar nxdata={nxData} nxLoading={nxLoading} />} />
               <Route path="/nxdata" element={<Nxdata />} />
               <Route path="/dynamics" element={<TreeMapChart />} />
@@ -157,3 +146,42 @@ function App() {
 }
 
 export default App;
+
+
+
+return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <DgaProvider>
+        <div className="app" style={{ display: "flex", height: "100vh" }}>
+          <Sidebar />
+          <main className="content" style={{ flex: 1, overflow: "auto" }}>
+            <Topbar />
+            <Routes>
+            <Route 
+            path="/" 
+            element={<Dashboard />} 
+          />
+              <Route path="/team" element={<TwentyfourHoursTable />} />
+              <Route path="/bar" element={<Bar  />} />
+              <Route path="/bardga" element={<BarDga />} />
+              <Route path="/tree" element={<Tree />} />
+              <Route path="/line" element={<Line />} />
+              <Route path="/horibar" element={<HoriBar />} />
+              <Route path="/nxbar" element={<NxBar  />} />
+              <Route path="/nxdata" element={<Nxdata />} />
+              <Route path="/dynamics" element={<TreeMapChart />} />
+              <Route path="/last5days" element={<Last5DaysTable />} />
+              <Route path="/dnsrecordchangedtable" element={<DnsRecordChangedTable />} />
+              <Route path="/newiptable" element={<NewIpTable />} />
+              <Route path="/nonoperationaltable" element={<NonOperationalTable />} />
+              <Route path="/operationaltable" element={<OperationalTable />} />
+
+            </Routes>
+          </main>
+        </div>
+        </DgaProvider>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );

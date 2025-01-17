@@ -5,7 +5,7 @@ import DomainTable from "../nxtable";
 //import MddTable1 from "../mddTables";
 import { useState } from "react";
 
-const NxBar = () =>{
+const NxBar = ({nxdata,nxLoading}) =>{
     const [selectedDate, setSelectedDate] = useState(null);
    // const [showTable,setshowtable] = useState(false);
     const handleBarClick = (date) => {
@@ -22,12 +22,12 @@ const NxBar = () =>{
 
     return(
         <Box>
-            
+      
             <Box height="75vh">
             {/* <NxBarChartMal onBarClick={handleBarClick} />  
             {showTable && <DomainTable selectedDate={selectedDate} />} */}
              {!selectedDate ? (
-                    <NxBarChartMal onBarClick={handleBarClick} />    
+                    <NxBarChartMal onBarClick={handleBarClick} nxdata={nxdata} nxLoading={nxLoading} />    
                 ):(
                     <DomainTable selectedDate={selectedDate} onBack={handleBack} />
                 )}
